@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 // Node.js CLI Calculator
-// Supports: Addition (+), Subtraction (-), Multiplication (×), Division (÷)
+// Supports: Addition (+), Subtraction (-), Multiplication (×), Division (÷), Modulo (%), Power (^), Square Root (√)
 
 const [,, operation, a, b] = process.argv;
 
 function printUsage() {
   console.log('Usage: node calculator.js <operation> <num1> <num2>');
-  console.log('Operations: add (+), sub (-), mul (×), div (÷)');
-  console.log('Example: node calculator.js add 2 3');
+  console.log('Operations: add (+), sub (-), mul (×), div (÷), mod (%), pow (^), sqrt (√)');
+  console.log('Examples:');
+  console.log('  node calculator.js add 2 3');
+  console.log('  node calculator.js mod 10 3');
+  console.log('  node calculator.js pow 2 8');
+  console.log('  node calculator.js sqrt 16 0');
 }
 
 if (!operation || !a || !b) {
@@ -45,6 +49,26 @@ switch (operation) {
       process.exit(1);
     }
     result = num1 / num2;
+    break;
+  case 'mod':
+  case '%':
+    if (num2 === 0) {
+      console.error('Error: Modulo by zero.');
+      process.exit(1);
+    }
+    result = num1 % num2;
+    break;
+  case 'pow':
+  case '^':
+    result = Math.pow(num1, num2);
+    break;
+  case 'sqrt':
+  case '√':
+    if (num1 < 0) {
+      console.error('Error: Square root of negative number.');
+      process.exit(1);
+    }
+    result = Math.sqrt(num1);
     break;
   default:
     printUsage();
